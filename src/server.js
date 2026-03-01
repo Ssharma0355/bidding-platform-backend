@@ -1,17 +1,16 @@
+import dotenv from "dotenv";
+dotenv.config(); // Load environment variables FIRST
+
 import http from "http";
 import app from "./app.js";
-import { Server } from "socket.io";
+import { connectDB } from "./config/db.js";
+
+connectDB();
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: "*"
-  }
-});
+const PORT = process.env.PORT || 5000;
 
-export { io };
-
-server.listen(process.env.PORT, () => {
-  console.log("Server running");
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
